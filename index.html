@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>BOOLFLIX 06-04-2021</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+  </head>
+
+
+  <body>
+    <div id="root">
+
+    <header>
+
+       <div class="header-img">
+         <img src="img/netflix.png" alt="">
+         <a href="#">Home</a>
+         <a href="#">Serie Tv</a>
+         <a href="#">Film</a>
+         <a href="#">Nuovi e popolari</a>
+         <a href="#">La mia lista</a>
+
+       <div class="selector">
+         <label for="generi">Generi</label>
+         <select v-model="generiSelect" name="" value="">
+               <option v-for="element in generi" value="">
+               {{element.name}}</option>
+             </select>
+        </div>
+       </div>
+
+       <div class="header-botton-search">
+         <i class="fas fa-search"></i>
+           <input type="text" class="input-ricerca"
+           placeholder="cerca film" v-model="ricerca" @keyup.enter="cerca">
+         
+         
+           
+       </div>
+    </header>
+
+    <div class="container"
+      v-for="element in risultati" v-if="generiSelect === element.name || generiSelect === ''">
+        <div class="posters">
+
+            <div class="fronte">
+              <img :src= locandina(element.poster_path) class="fronte" alt="">
+            </div>
+
+            <div class="retro">
+              <h4 v-if="element.title">Titolo:{{element.title}}</h4><br>
+                <h4 v-if="element.name">{{element.name}}</h4><br>
+
+                <span v-if="element.original_title">Titolo Originale:{{element.original_title }}</span><br>
+                <span v-if="element.original_name" >{{element.original_name}}</span><br>
+
+
+             <span class="">{{element.original_title}}</span><br>
+
+              <img class="flags" v-if="lingue.includes(element.original_language)" :src="'img/' + element.original_language + '.jpg'"><br>
+
+             <span class="stelle(element.vote_average)"></span>
+
+             <span><i class="fas fa-star" v-for="element in stelle(element.vote_average)"></i></span>
+              <span><i class="far fa-star" v-for="element in (5 - stelle(element.vote_average))"></i></span><br>
+              <h6>Overview: {{element.overview}}</h6>
+
+
+              <div @click="cercaAttori(element.id)" class="attori">
+                <span  v-for="element in attori">attori:{{element.name}}</span>
+              </div>
+
+            </div>
+        </div>
+    </div>
+
+
+   </div>
+
+     <script src="js/script.js" charset="utf-8"></script>
+  </body>
+</html>
